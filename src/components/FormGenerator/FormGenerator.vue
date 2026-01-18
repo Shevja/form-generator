@@ -1,15 +1,21 @@
 <script setup lang="ts">
-import type {FormGeneratorProps, FormGeneratorEmits, FormValue, ComponentMap} from "./FormGenerator.type.ts";
+import type {
+    FormGeneratorProps,
+    FormGeneratorEmits,
+    FormValue,
+    ComponentMap,
+    FieldSchema
+} from "./FormGenerator.type.ts";
 import BaseInput from "../ui/BaseInput.vue";
 import BaseSelect from "../ui/BaseSelect.vue";
 import BaseTextarea from "../ui/BaseTextarea.vue";
 import BaseCheckbox from "../ui/BaseCheckbox.vue";
-import {useId} from "vue";
+import {useId, watch} from "vue";
 
 const props = defineProps<FormGeneratorProps>();
 const emit = defineEmits<FormGeneratorEmits>()
 
-const formValue = defineModel<FormValue>({ required: true })
+const formValue = defineModel<FormValue>({required: true})
 const formId = useId()
 
 const componentMap: ComponentMap = {
@@ -21,6 +27,30 @@ const componentMap: ComponentMap = {
 
 const handleSubmit = () => emit('submit')
 const handleCancel = () => emit('cancel')
+
+const getDefaultFieldValue = (field: FieldSchema) => {
+    switch (field.type) {
+        case 'checkbox':
+            return false
+        case 'select':
+            return null
+        default:
+            return ''
+    }
+}
+
+watch(
+    () => props.schema,
+    (newSchema: FieldSchema[]) => {
+        newSchema.forEach((field: FieldSchema) => {
+            if (!(field.id in formValue.value)) {
+                formValue.value[field.id] = getDefaultFieldValue(field)
+                console.log(field.id, formValue.value[field.id])
+            }
+        })
+    },
+    { immediate: true, deep: true }
+)
 </script>
 
 <template>
@@ -33,11 +63,12 @@ const handleCancel = () => emit('cancel')
             >
                 <component
                     :is="componentMap[field.type]"
-                    v-bind="field"
                     v-model="formValue[field.id]"
-                    :inputAttrs="{
-                        ...field.inputAttrs,
+                    v-bind="field"
+                    :htmlAttrs="{
+                        ...field.htmlAttrs,
                         id: `${formId}-${field.id}`,
+                        name: field.htmlAttrs?.name || field.id
                     }"
                 />
             </div>

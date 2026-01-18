@@ -1,15 +1,12 @@
 <script setup lang="ts">
 import type {CheckboxProps, CheckboxValue} from "./BaseCheckbox.types.ts";
 
-const props = withDefaults(
-    defineProps<CheckboxProps>(),
-    {
-        isValid: true,
-        errorMessage: '',
-        label: '',
-        inputAttrs: () => ({})
-    }
-)
+const {
+    isValid = true,
+    errorMessage = '',
+    label = '',
+    htmlAttrs = {}
+} = defineProps<CheckboxProps>()
 
 const value = defineModel<CheckboxValue>()
 </script>
@@ -20,10 +17,10 @@ const value = defineModel<CheckboxValue>()
             <input
                 v-model="value"
                 type="checkbox"
-                v-bind="props.inputAttrs"
+                v-bind="htmlAttrs"
             >
-            <span>{{ props.label }}</span>
+            <span>{{ label }}</span>
         </label>
-        <span v-if="!props.isValid">{{ props.errorMessage }}</span>
+        <span v-if="!isValid">{{ errorMessage }}</span>
     </div>
 </template>

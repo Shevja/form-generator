@@ -5,5 +5,5 @@ export type InputValue = string | number
 
 export interface InputProps extends BaseFieldProps {
     type: 'input'
-    inputAttrs?: InputHTMLAttributes & Record<string, unknown>
+    htmlAttrs?: InputHTMLAttributes & Record<string, unknown>
 }

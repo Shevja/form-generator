@@ -11,5 +11,5 @@ export interface SelectOptions {
 export interface SelectProps extends BaseFieldProps {
     type: 'select'
     options: SelectOptions[]
-    inputAttrs?: InputHTMLAttributes & Record<string, unknown>
+    htmlAttrs?: InputHTMLAttributes & Record<string, unknown>
 }

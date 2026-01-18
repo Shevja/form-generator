@@ -6,5 +6,5 @@ export type CheckboxValue = boolean
 export interface CheckboxProps extends BaseFieldProps {
     type: 'checkbox'
     label?: string
-    inputAttrs?: InputHTMLAttributes & Record<string, unknown>
+    htmlAttrs?: InputHTMLAttributes & Record<string, unknown>
 }

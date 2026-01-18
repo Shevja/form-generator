@@ -5,5 +5,5 @@ export type TextareaValue = string | number
 
 export interface TextareaProps extends BaseFieldProps {
     type: 'textarea'
-    textareaAttrs?: TextareaHTMLAttributes & Record<string, unknown>
+    htmlAttrs?: TextareaHTMLAttributes & Record<string, unknown>
 }

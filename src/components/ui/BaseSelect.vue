@@ -5,7 +5,7 @@ import {DEFAULT_FORM_MESSAGES} from "../../types/shared.ts";
 
 const {
     isValid = true,
-    errorMessage = 'Поле заполнено неверно',
+    errorMessage = DEFAULT_FORM_MESSAGES.ERROR,
     options = [],
     label = '',
     htmlAttrs = {},
@@ -91,43 +91,50 @@ onUnmounted(() => window.removeEventListener("click", handleClickOutside))
                     </li>
                 </ul>
             </transition>
-
-            <span v-if="!isValid" class="select-error">{{ errorMessage }}</span>
         </div>
+
+        <span v-if="!isValid" class="select-error">{{ errorMessage }}</span>
     </div>
 </template>
 
 <style scoped lang="scss">
+@use "@/assets/styles/variables" as v;
+
 .select {
     width: 100%;
-    height: 36px;
+    height: v.$input-height;
     padding: 0 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
-    background: #fff;
+    border: 1px solid v.$color-border;
+    border-radius: v.$radius-base;
+    font-size: v.$font-size-base;
+    background: v.$color-white;
     display: flex;
     align-items: center;
     justify-content: space-between;
     cursor: pointer;
-    transition: border-color 0.2s;
+    transition: border-color v.$transition-base;
 
     &:hover {
-        border-color: #aaa;
+        border-color: v.$color-border-hover;
+    }
+
+    // Состояние, когда селект открыт (нужно добавить :class в шаблон)
+    &-open {
+        border-color: v.$color-text-main;
     }
 
     &-invalid {
-        border-color: #e53935;
+        border-color: v.$color-error;
     }
 
     &-placeholder {
-        color: #999;
+        color: v.$color-text-placeholder;
     }
 
     &-arrow {
         font-size: 10px;
-        color: #999;
-        transition: transform 0.2s;
+        color: v.$color-text-placeholder;
+        transition: transform v.$transition-base;
     }
 
     &-open &-arrow {
@@ -142,9 +149,13 @@ onUnmounted(() => window.removeEventListener("click", handleClickOutside))
         position: relative;
     }
 
+    &-container {
+        position: relative;
+    }
+
     &-label {
-        font-size: 13px;
-        color: #555;
+        font-size: v.$font-size-label;
+        color: v.$color-text-muted;
         font-weight: 500;
     }
 
@@ -161,9 +172,9 @@ onUnmounted(() => window.removeEventListener("click", handleClickOutside))
         top: calc(100% + 4px);
         left: 0;
         width: 100%;
-        background: #fff;
-        border: 1px solid #ccc;
-        border-radius: 4px;
+        background: v.$color-white;
+        border: 1px solid v.$color-border;
+        border-radius: v.$radius-base;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         z-index: 100;
         max-height: 200px;
@@ -172,37 +183,37 @@ onUnmounted(() => window.removeEventListener("click", handleClickOutside))
 
         &-item {
             padding: 8px 12px;
-            font-size: 14px;
+            font-size: v.$font-size-base;
             cursor: pointer;
-            transition: background 0.2s;
+            transition: background v.$transition-base;
 
             &:hover {
-                background: #f5f5f5;
+                background: v.$color-bg-light;
             }
 
             &.is-selected {
-                background: #eee;
+                background: v.$color-bg-light;
+                color: v.$color-text-main;
                 font-weight: 600;
             }
         }
 
         &-empty {
             padding: 8px 12px;
-            font-size: 14px;
-            color: #999;
+            font-size: v.$font-size-base;
+            color: v.$color-text-placeholder;
             text-align: center;
         }
     }
 
     &-error {
-        font-size: 12px;
-        color: #e53935;
+        font-size: v.$font-size-small;
+        color: v.$color-error;
     }
 }
 
-// Fade анимация (уже писали, но продублируем кратко)
 .fade-enter-active, .fade-leave-active {
-    transition: opacity 0.2s, transform 0.2s;
+    transition: opacity v.$transition-base, transform v.$transition-base;
 }
 
 .fade-enter-from, .fade-leave-to {

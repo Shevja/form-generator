@@ -4,7 +4,7 @@ import {DEFAULT_FORM_MESSAGES} from "../../types/shared.ts";
 
 const {
     isValid = true,
-    errorMessage = 'Поле заполнено неверно',
+    errorMessage = DEFAULT_FORM_MESSAGES.ERROR,
     label = '',
     htmlAttrs = {},
     id
@@ -37,25 +37,33 @@ const value = defineModel<TextareaValue>()
 </template>
 
 <style scoped lang="scss">
+@use "@/assets/styles/variables" as v;
+
 .textarea {
     width: 100%;
-    min-height: 80px;
-    padding: 8px 10px;
-    border: 1px solid #ccc;
-    background: #fff;
-    border-radius: 4px;
-    font-size: 14px;
-    line-height: 1.4;
-    transition: border-color 0.2s;
-    resize: vertical;
+    min-height: 80px; // Минимальная высота для текстового поля
+    padding: 8px 10px; // Чуть больше padding сверху для текста
+    border: 1px solid v.$color-border;
+    border-radius: v.$radius-base;
+    font-size: v.$font-size-base;
+    color: v.$color-text-main;
+    background: v.$color-white;
+    line-height: 1.5; // Улучшаем читаемость многострочного текста
+    transition: border-color v.$transition-base;
+    resize: vertical; // Позволяем менять размер только по вертикали
+    display: block;
 
     &:focus {
-        border-color: #666;
+        border-color: v.$color-border-hover;
+        outline: none;
     }
-    &::placeholder { color: #999; }
+
+    &::placeholder {
+        color: v.$color-text-placeholder;
+    }
 
     &-invalid {
-        border-color: #e53935;
+        border-color: v.$color-error;
     }
 
     &-wrapper {
@@ -66,14 +74,15 @@ const value = defineModel<TextareaValue>()
     }
 
     &-label {
-        font-size: 13px;
-        color: #555;
+        font-size: v.$font-size-label;
+        color: v.$color-text-muted;
         font-weight: 500;
+        cursor: pointer;
     }
 
     &-error {
-        font-size: 12px;
-        color: #e53935;
+        font-size: v.$font-size-small;
+        color: v.$color-error;
     }
 }
 </style>

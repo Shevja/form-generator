@@ -11,6 +11,7 @@ import BaseSelect from "../ui/BaseSelect.vue";
 import BaseTextarea from "../ui/BaseTextarea.vue";
 import BaseCheckbox from "../ui/BaseCheckbox.vue";
 import {useId, watch} from "vue";
+import BaseButton from "@/components/ui/BaseButton.vue";
 
 const props = defineProps<FormGeneratorProps>();
 const emit = defineEmits<FormGeneratorEmits>()
@@ -49,7 +50,7 @@ watch(
             }
         })
     },
-    { immediate: true, deep: true }
+    {immediate: true, deep: true}
 )
 </script>
 
@@ -61,23 +62,56 @@ watch(
                 v-for="field in props.schema"
                 :key="field.id"
             >
-                <component
-                    :is="componentMap[field.type]"
-                    v-model="formValue[field.id]"
-                    v-bind="field"
-                    :htmlAttrs="{
-                        ...field.htmlAttrs,
-                        id: `${formId}-${field.id}`,
-                        name: field.htmlAttrs?.name || field.id
-                    }"
-                />
+                <slot
+                    :name="field.id"
+                    :field="field"
+                    :model="formValue"
+                >
+                    <component
+                        :is="componentMap[field.type]"
+                        v-model="formValue[field.id]"
+                        v-bind="field"
+                        :htmlAttrs="{
+                            ...field.htmlAttrs,
+                            id: `${formId}-${field.id}`,
+                            name: field.htmlAttrs?.name || field.id
+                        }"
+                    />
+                </slot>
             </div>
         </div>
 
         <!-- Кнопки формы -->
-        <div>
-            <button type="submit">Отправить</button>
-            <button type="button" @click="handleCancel">Отмена</button>
+        <div class="form-actions">
+            <BaseButton
+                type="submit"
+                variant="primary"
+            >
+                Отправить
+            </BaseButton>
+
+            <BaseButton
+                type="button"
+                variant="secondary"
+                @click="handleCancel"
+            >
+                Отмена
+            </BaseButton>
         </div>
     </form>
 </template>
+
+<style scoped lang="scss">
+@use "@/assets/styles/variables" as v;
+
+form {
+    display: grid;
+    gap: 16px;
+}
+
+.form-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 8px;
+}
+</style>

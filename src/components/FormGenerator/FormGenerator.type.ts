@@ -4,7 +4,7 @@ import type {CheckboxProps, CheckboxValue} from "../ui/BaseCheckbox.types";
 import type {TextareaProps, TextareaValue} from "../ui/BaseTextarea.types";
 import type {Component} from "vue";
 
-export type FieldValue = InputValue | SelectValue | CheckboxValue | TextareaValue | null
+export type FieldValue = InputValue | SelectValue | CheckboxValue | TextareaValue
 
 export type FormValue = Record<string, FieldValue>;
 

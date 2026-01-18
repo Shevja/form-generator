@@ -1,7 +1,7 @@
 import type {BaseFieldProps} from "../../types/shared";
 import type { InputHTMLAttributes } from "vue";
 
-export type SelectValue = string | number
+export type SelectValue = string | number | null
 
 export interface SelectOptions {
     label: string

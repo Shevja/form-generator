@@ -4,7 +4,7 @@ import {DEFAULT_FORM_MESSAGES} from "../../types/shared.ts";
 
 const {
     isValid = true,
-    errorMessage = 'Поле заполнено неверно',
+    errorMessage = DEFAULT_FORM_MESSAGES.ERROR,
     label = '',
     htmlAttrs = {},
     id
@@ -34,23 +34,30 @@ const value = defineModel<InputValue>()
 </template>
 
 <style scoped lang="scss">
+@use "@/assets/styles/variables" as v;
+
 .input {
     width: 100%;
-    height: 36px;
+    height: v.$input-height;
     padding: 0 10px;
-    border: 1px solid #ccc;
-    background: #fff;
-    border-radius: 4px;
-    font-size: 14px;
-    transition: border-color 0.2s;
+    border: 1px solid v.$color-border;
+    background: v.$color-white;
+    border-radius: v.$radius-base;
+    font-size: v.$font-size-base;
+    color: v.$color-text-main;
+    transition: border-color v.$transition-base;
 
     &:focus {
-        border-color: #666;
+        border-color: v.$color-border-hover;
+        outline: none;
     }
-    &::placeholder { color: #999; }
+
+    &::placeholder {
+        color: v.$color-text-placeholder;
+    }
 
     &-invalid {
-        border-color: #e53935;
+        border-color: v.$color-error;
     }
 
     &-wrapper {
@@ -61,14 +68,15 @@ const value = defineModel<InputValue>()
     }
 
     &-label {
-        font-size: 13px;
-        color: #555;
+        font-size: v.$font-size-label;
+        color: v.$color-text-muted;
         font-weight: 500;
+        cursor: pointer;
     }
 
     &-error {
-        font-size: 12px;
-        color: #e53935;
+        font-size: v.$font-size-small;
+        color: v.$color-error;
     }
 }
 </style>

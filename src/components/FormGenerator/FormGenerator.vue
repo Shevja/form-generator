@@ -46,7 +46,6 @@ watch(
         newSchema.forEach((field: FieldSchema) => {
             if (!(field.id in formValue.value)) {
                 formValue.value[field.id] = getDefaultFieldValue(field)
-                console.log(field.id, formValue.value[field.id])
             }
         })
     },

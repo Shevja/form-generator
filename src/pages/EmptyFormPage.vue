@@ -1,90 +1,10 @@
 <script setup lang="ts">
 import {ref} from "vue";
-import type {FieldSchema} from "@/components/FormGenerator/FormGenerator.type.ts";
 import FormGenerator from "@/components/FormGenerator/FormGenerator.vue";
+import {profileSchema, invalidProfileSchema} from "@/schemas/formSchemas.ts";
 
 const testValue = ref({})
 const testValue2 = ref({})
-
-const testSchema: FieldSchema[] = [
-    {
-        id: 'name',
-        type: 'input',
-        label: 'Имя',
-        errorMessage: 'test',
-        htmlAttrs: {
-            placeholder: 'Введите имя'
-        }
-    },
-    {
-        id: 'theme',
-        type: 'select',
-        label: 'Theme',
-        options: [
-            {
-                label: 'Значение',
-                value: 'value'
-            },
-            {
-                label: 'Невидимый',
-                value: 'invisible'
-            }
-        ],
-        htmlAttrs: {
-            placeholder: 'Выберите опцию'
-        }
-    },
-    {
-        id: 'message',
-        type: 'textarea',
-        label: 'message',
-    },
-    {
-        id: 'agreement',
-        type: 'checkbox',
-        label: 'Соглашение',
-    }
-]
-
-const testSchema2: FieldSchema[] = [
-    {
-        id: 'name',
-        type: 'input',
-        isValid: false,
-        label: 'Имя',
-    },
-    {
-        id: 'theme',
-        type: 'select',
-        isValid: false,
-        label: 'Theme',
-        options: [
-            {
-                label: 'Значение',
-                value: 'value'
-            },
-            {
-                label: 'Невидимый',
-                value: 'invisible'
-            }
-        ],
-        htmlAttrs: {
-            placeholder: 'Выберите опцию'
-        }
-    },
-    {
-        id: 'message',
-        type: 'textarea',
-        label: 'message',
-        isValid: false,
-    },
-    {
-        id: 'agreement',
-        type: 'checkbox',
-        label: 'Соглашение',
-        isValid: false,
-    }
-]
 </script>
 
 <template>
@@ -94,7 +14,7 @@ const testSchema2: FieldSchema[] = [
                 <div>
                     <FormGenerator
                         v-model="testValue"
-                        :schema="testSchema"
+                        :schema="profileSchema"
                     />
                     <div>
                         <span>formValue:</span>
@@ -104,7 +24,7 @@ const testSchema2: FieldSchema[] = [
                 <div>
                     <FormGenerator
                         v-model="testValue2"
-                        :schema="testSchema2"
+                        :schema="invalidProfileSchema"
                     />
                     <div>
                         <span>formValue:</span>

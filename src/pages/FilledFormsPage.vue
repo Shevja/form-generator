@@ -1,104 +1,27 @@
 <script setup lang="ts">
-import {computed} from "vue";
-import type {FieldSchema} from "@/components/FormGenerator/FormGenerator.type.ts";
+import {ref} from "vue";
 import FormGenerator from "@/components/FormGenerator/FormGenerator.vue";
 import {useStore} from "vuex";
+import {invalidProfileSchema, profileSchema} from "@/schemas/formSchemas.ts";
 
 const store = useStore();
 
-const formData = computed({
-    get: () => store.state.formData,
-    set: (value) => store.commit("UPDATE_FORM_DATA", value),
-})
+const testData1 = ref({ ...store.state.testData1 })
+const testData2 = ref({ ...store.state.testData2 })
 
-const onSubmit = async () => {
-    await store.dispatch("saveData")
+const onSubmit1 = async () => {
+    store.commit("UPDATE_TEST_DATA", { key: "testData1", value: testData1.value });
+
+    await store.dispatch("saveData", 'testData1')
     alert("Данные отправлены")
 }
 
-const onCancel = () => {
+const onSubmit2 = async () => {
+    store.commit("UPDATE_TEST_DATA", { key: "testData2", value: testData2.value });
 
+    await store.dispatch("saveData", 'testData2')
+    alert("Данные отправлены")
 }
-
-const testSchema: FieldSchema[] = [
-    {
-        id: 'name',
-        type: 'input',
-        label: 'Имя',
-        errorMessage: 'test',
-        htmlAttrs: {
-            placeholder: 'Введите имя'
-        }
-    },
-    {
-        id: 'theme',
-        type: 'select',
-        label: 'Theme',
-        options: [
-            {
-                label: 'Значение',
-                value: 'value'
-            },
-            {
-                label: 'Невидимый',
-                value: 'invisible'
-            }
-        ],
-        htmlAttrs: {
-            placeholder: 'Выберите опцию'
-        }
-    },
-    {
-        id: 'message',
-        type: 'textarea',
-        label: 'message',
-    },
-    {
-        id: 'agreement',
-        type: 'checkbox',
-        label: 'Соглашение',
-    }
-]
-
-const testSchema2: FieldSchema[] = [
-    {
-        id: 'name',
-        type: 'input',
-        isValid: false,
-        label: 'Имя',
-    },
-    {
-        id: 'theme',
-        type: 'select',
-        isValid: false,
-        label: 'Theme',
-        options: [
-            {
-                label: 'Значение',
-                value: 'value'
-            },
-            {
-                label: 'Невидимый',
-                value: 'invisible'
-            }
-        ],
-        htmlAttrs: {
-            placeholder: 'Выберите опцию'
-        }
-    },
-    {
-        id: 'message',
-        type: 'textarea',
-        label: 'message',
-        isValid: false,
-    },
-    {
-        id: 'agreement',
-        type: 'checkbox',
-        label: 'Соглашение',
-        isValid: false,
-    }
-]
 </script>
 
 <template>
@@ -107,26 +30,26 @@ const testSchema2: FieldSchema[] = [
             <div class="form-grid">
                 <div>
                     <FormGenerator
-                        v-model="formData"
-                        :schema="testSchema"
-                        @submit="onSubmit"
-                        @cancel="onCancel"
+                        v-model="testData1"
+                        :schema="profileSchema"
+                        @submit="onSubmit1"
                     />
                     <div>
                         <span>formValue:</span>
-                        <pre>{{ formData }}</pre>
+                        <pre>{{ testData1 }}</pre>
                     </div>
                 </div>
-<!--                <div>-->
-<!--                    <FormGenerator-->
-<!--                        v-model="testValue2"-->
-<!--                        :schema="testSchema2"-->
-<!--                    />-->
-<!--                    <div>-->
-<!--                        <span>formValue:</span>-->
-<!--                        <pre>{{ testValue2 }}</pre>-->
-<!--                    </div>-->
-<!--                </div>-->
+                <div>
+                    <FormGenerator
+                        v-model="testData2"
+                        :schema="invalidProfileSchema"
+                        @submit="onSubmit2"
+                    />
+                    <div>
+                        <span>formValue:</span>
+                        <pre>{{ testData2 }}</pre>
+                    </div>
+                </div>
             </div>
         </div>
     </section>

@@ -1,5 +1,7 @@
 # Генератор форм
 
+Демо: https://form-generator-two-beta.vercel.app/
+
 Проект состоит из следующих частей:
 1. Поля формы (input, select, textarea, checkbox) и кнопки *src/ui*
 2. Генератор форм *src/components/FormGenerator/FormGenerator.vue*
